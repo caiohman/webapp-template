@@ -1,0 +1,24 @@
+version: "3"
+
+networks:
+  services_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.19.128.32/27
+
+services:
+
+  mysqldb:
+    container_name: usp-app
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: "app"
+      MYSQL_DATABASE: "app"
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./bd/mysql:/docker-entrypoint-initdb.d
+    networks:
+      - services_network
+
